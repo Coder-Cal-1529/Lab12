@@ -36,12 +36,13 @@ pub fn print_grid(grid: &Grid) {
 // Live neighbors of (row, col): the eight surrounding cells, excluding the cell itself.
 // Cells beyond the edge count as dead. Careful: row - 1 on a usize of 0 panics.
 pub fn count_neighbors(grid: &Grid, row: usize, col: usize) -> u8 {
-    let mut count: u8 =0;
+    if row as i32 -1 <0 || col as i32 -1 <0{
+    }let mut count: u8 =0;
     for r in row-1..=row+1{
-	if r == row || r<0 || r>ROWS{
+	if r<0 || r>ROWS{
 	}else{
 	    for c in col-1..=col+1{
-		if c == col || c<0 || c>COLS{
+		if c == col && r == row || c<0 || c>COLS{
 		}else{
 		    match grid[r][c] {
 		        true => count+=1,
