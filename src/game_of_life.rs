@@ -28,7 +28,7 @@ pub fn next_state(alive: bool, neighbors: u8) -> bool {
     match (alive,neighbors){
 	(true,2|3) => true,
 	(false,3) => true,
-	_ => false,
+	(_,_) => false,
     }
 }
 
@@ -64,11 +64,11 @@ mod tests {
     }
     #[test]
     fn live_4_dies() {
-	assert!(next_state(true, 4));
+	assert!(!next_state(true, 4));
 }
     #[test]
     fn dead_2_stays_dead() {
-	assert!(next_state(false,2));
+	assert!(!next_state(false,2));
 }
     // TODO (student): write the remaining cases from your truth table before you
     // write next_state. At minimum: a live cell with 4 neighbors, a dead cell with 2.
