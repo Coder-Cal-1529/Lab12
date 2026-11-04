@@ -21,8 +21,16 @@ grid
 }
 
 // '#' for a live cell, '.' for a dead cell, one line per row.
-pub fn print_grid(_grid: &Grid) {
-    todo!("Implement print_grid")
+pub fn print_grid(grid: &Grid) {
+    for r in 0..ROWS{
+        for c in 0..COLS{
+            match grid[r][c]{
+		    true => print!("#"),
+                    false => print!("."),
+	    }
+        }
+        println!(" ");
+    }
 }
 
 // Live neighbors of (row, col): the eight surrounding cells, excluding the cell itself.
