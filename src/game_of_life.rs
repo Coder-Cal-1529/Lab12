@@ -12,7 +12,7 @@ pub fn new_grid() -> Grid {
     let mut grid = [[false; COLS]; ROWS];
     for r in 0..ROWS{
 	for c in 0..COLS{
-		print!(".");
+		print!(". ");
 		grid[r][c] = false;
 	}
     	println!(" ");
@@ -25,8 +25,8 @@ pub fn print_grid(grid: &Grid) {
     for r in 0..ROWS{
         for c in 0..COLS{
             match grid[r][c]{
-		    true => print!("#"),
-                    false => print!("."),
+		    true => print!("# "),
+                    false => print!(". "),
 	    }
         }
         println!(" ");
@@ -64,8 +64,12 @@ pub fn next_state(alive: bool, neighbors: u8) -> bool {
 }
 
 // Debug view: each cell's neighbor count as a digit, one line per row.
-pub fn print_neighbor_counts(_grid: &Grid) {
-    todo!("Implement print_neighbor_counts")
+pub fn print_neighbor_counts(grid: &Grid) {
+    for r in 0..ROWS{
+	for c in 0..COLS{
+	    eprint!("{} ", count_neighbors(grid,r,c));
+	}eprintln!(" ") 
+    }
 }
 
 // Set a few cells alive (hardcoded, or entered as `row col` pairs until a blank line),
