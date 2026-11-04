@@ -9,7 +9,15 @@ type Grid = [[bool; COLS]; ROWS];
 
 // All cells dead.
 pub fn new_grid() -> Grid {
-    todo!("Implement new_grid")
+    let mut grid = [[false; COLS]; ROWS];
+    for r in 0..ROWS{
+	for c in 0..COLS{
+		print!(".");
+		grid[r][c] = false;
+	}
+    	println!(" ");
+    }
+grid
 }
 
 // '#' for a live cell, '.' for a dead cell, one line per row.
