@@ -36,23 +36,18 @@ pub fn print_grid(grid: &Grid) {
 // Live neighbors of (row, col): the eight surrounding cells, excluding the cell itself.
 // Cells beyond the edge count as dead. Careful: row - 1 on a usize of 0 panics.
 pub fn count_neighbors(grid: &Grid, row: usize, col: usize) -> u8 {
-    if row as i32 -1 <0 || col as i32 -1 <0{
-    }let mut count: u8 =0;
-    for r in row-1..=row+1{
-	if r<0 || r>ROWS{
-	}else{
-	    for c in col-1..=col+1{
-		if c == col && r == row || c<0 || c>COLS{
-		}else{
-		    match grid[r][c] {
-		        true => count+=1,
-		        false => count+=0, 
-		    }
-		}	
-    	    }
-	}
+    let mut count = 0;
+    let directions = [ (-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)];
+    for &(dr, dc) in &directions{
+	let r = row as i32 + dr;
+	let c = col as i32 +dc;
+	if r >= 0 && r <ROWS as i32 && c>= 0 && c < COLS as i32{
+	    if grid[r as usize][c as usize] {
+	         count+=1;  
+	    }
+	}	
     }
-count
+    count
 }
 // The rule for one cell: does it live in the next generation?
 pub fn next_state(alive: bool, neighbors: u8) -> bool {
@@ -67,15 +62,22 @@ pub fn next_state(alive: bool, neighbors: u8) -> bool {
 pub fn print_neighbor_counts(grid: &Grid) {
     for r in 0..ROWS{
 	for c in 0..COLS{
-	    eprint!("{} ", count_neighbors(grid,r,c));
-	}eprintln!(" ") 
+	    print!("{} ", count_neighbors(grid,r,c));
+	}println!(" ") 
     }
 }
 
 // Set a few cells alive (hardcoded, or entered as `row col` pairs until a blank line),
 // print the grid, then the neighbor counts.
 pub fn play() {
-    todo!("Implement play")
+    let mut grid: &mut Grid = &mut new_grid();
+print_grid(&grid);
+grid[5][5] = true;
+grid[6][5] = true;
+grid[6][6] = true;
+
+print_grid(&grid);
+print_neighbor_counts(&grid);
 }
 
 #[cfg(test)]
