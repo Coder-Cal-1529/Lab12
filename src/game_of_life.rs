@@ -2,7 +2,7 @@
 //
 // TODO: remove the next line once every function below is used.
 #![allow(dead_code)]
-
+use crate::input::{read_int, read_line_trimmed};
 const ROWS: usize = 10;
 const COLS: usize = 20;
 type Grid = [[bool; COLS]; ROWS];
@@ -50,8 +50,9 @@ pub fn count_neighbors(grid: &Grid, row: usize, col: usize) -> u8 {
     count
 }
 // The rule for one cell: does it live in the next generation?
-pub fn next_state(alive: bool, neighbors: u8) -> bool {
-    match (alive,neighbors){
+pub fn next_state(alive: bool, neighbors: u8) -> bool { 
+    
+	match (alive,neighbors){
 	(true,2|3) => true,
 	(false,3) => true,
 	(_,_) => false,
@@ -70,19 +71,68 @@ pub fn print_neighbor_counts(grid: &Grid) {
 // Set a few cells alive (hardcoded, or entered as `row col` pairs until a blank line),
 // print the grid, then the neighbor counts.
 pub fn play() {
-    let mut grid: &mut Grid = &mut new_grid();
-print_grid(&grid);
-grid[5][5] = true;
-grid[6][5] = true;
-grid[6][6] = true;
+    let mut grid: Grid = new_grid();
+    let mut input_count: u32 = 0;
+    let generation_count: u32 = 0;
+       while input_count < 5 {
+        println!("Choose starting live cell placement: type something like '2,4' or '2 4' (up to {}, {})", ROWS, COLS);
+        println!("{} of 5 cells placed.", input_count);
+        let input = read_line_trimmed();
+ let mut input_check = None;
+        for (i, ch) in input.chars().enumerate() {
+            if ch == ',' || ch == ' ' || ch == '\t' {
+                input_check = Some(i);
+                break;
+            }
+        }
+        let clean_input = match input_check {
+            Some(i) => i,
+            None => {
+                println!("Please input exactly 2 whole numbers in the requested format (e.g., 2,4).");
+                continue;
+            }
+        };
+        let row_part = input[..clean_input].trim();
+        let col_part = input[clean_input + 1..].trim();
+        let row: i32 = row_part.parse().unwrap_or(0);
+        let col: i32 = col_part.parse().unwrap_or(0);
 
-print_grid(&grid);
-print_neighbor_counts(&grid);
+        if row < 1 || row > ROWS as i32 || col < 1 || col > COLS as i32 {
+            println!("Input out of bounds, Rows must be 1-{} and Cols must be 1-{}.", ROWS, COLS);
+        } else {
+            grid[(row - 1) as usize][(col - 1) as usize] = true;
+            input_count += 1;
+        }
+    }
+println!("--- Game Start ---");
+    print_grid(&grid);
+    print_neighbor_counts(&grid);
+loop {
+        print!("(c)ontinue or (e)nd game? ");
+        std::io::Write::flush(&mut std::io::stdout()).expect("failed to flush");       
+        let answer = read_line_trimmed();
+        if answer == "e" {
+            println!("");
+            break;
+        } else if answer == "c" {
+let mut next_grid = new_grid();
+            for r in 0..ROWS {
+                for c in 0..COLS {
+                    next_grid[r][c] = next_state(grid[r][c], count_neighbors(&grid, r, c));
+                }
+            }
+            grid = next_grid;
+            println!("--- Next Generation ---");
+            print_grid(&grid);
+            print_neighbor_counts(&grid);
+        } else {
+            println!("Invalid choice. Please type 'c' or 'e'.");
+       }      
 }
-
+}
 #[cfg(test)]
 mod tests {
-    use super::*;
+   use super::*;
 
     // Supplied by the instructor.
     #[test]
