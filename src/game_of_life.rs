@@ -1,8 +1,8 @@
 // Game of Life, Week 12: grid, display, neighbor counts, the rule for one cell.
 //
 // TODO: remove the next line once every function below is used.
-#![allow(dead_code)]
-use crate::input::{read_int, read_line_trimmed};
+
+use crate::input::{read_line_trimmed};
 const ROWS: usize = 10;
 const COLS: usize = 20;
 type Grid = [[bool; COLS]; ROWS];
@@ -73,7 +73,6 @@ pub fn print_neighbor_counts(grid: &Grid) {
 pub fn play() {
     let mut grid: Grid = new_grid();
     let mut input_count: u32 = 0;
-    let generation_count: u32 = 0;
        while input_count < 5 {
         println!("Choose starting live cell placement: type something like '2,4' or '2 4' (up to {}, {})", ROWS, COLS);
         println!("{} of 5 cells placed.", input_count);
