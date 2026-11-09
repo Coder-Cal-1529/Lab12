@@ -71,14 +71,12 @@ pub fn print_neighbor_counts(grid: &Grid) {
 // Set a few cells alive (hardcoded, or entered as `row col` pairs until a blank line),
 // print the grid, then the neighbor counts.
 pub fn play() {
-     let mut grid: &mut Grid = &mut new_grid();
+     let grid: &mut Grid = &mut new_grid();
 print_grid(&grid);
 grid[5][5] = true;
 grid[6][5] = true;
 grid[6][6] = true;
-
-print_grid(&grid);
-print_neighbor_counts(&grid);}
+}
 #[cfg(test)]
 mod tests {
    use super::*;
