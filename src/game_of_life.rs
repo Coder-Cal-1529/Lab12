@@ -103,31 +103,6 @@ pub fn play() {
             input_count += 1;
         }
     }
-println!("--- Game Start ---");
-    print_grid(&grid);
-    print_neighbor_counts(&grid);
-loop {
-        print!("(c)ontinue or (e)nd game? ");
-        std::io::Write::flush(&mut std::io::stdout()).expect("failed to flush");       
-        let answer = read_line_trimmed();
-        if answer == "e" {
-            println!("");
-            break;
-        } else if answer == "c" {
-let mut next_grid = new_grid();
-            for r in 0..ROWS {
-                for c in 0..COLS {
-                    next_grid[r][c] = next_state(grid[r][c], count_neighbors(&grid, r, c));
-                }
-            }
-            grid = next_grid;
-            println!("--- Next Generation ---");
-            print_grid(&grid);
-            print_neighbor_counts(&grid);
-        } else {
-            println!("Invalid choice. Please type 'c' or 'e'.");
-       }      
-}
 }
 #[cfg(test)]
 mod tests {
